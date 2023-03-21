@@ -7,7 +7,7 @@ const symbol = {
     error: pc.red('✖')
 }
 
-export const logInfo = (...args) => console.log(`${symbol.info} ${pc.blue(...args)}`)
-export const logError = (...args) => console.log(`${symbol.error} ${pc.red(...args)}`)
-export const logSuccess = (...args) => console.log(`${symbol.success} ${pc.green(...args)}`)
-export const logWarning = (...args) => console.log(`${symbol.warning} ${pc.yellow(...args)}`)
+export const logInfo = (...args) => `${symbol.info} ${pc.blue(...args)}`
+export const logError = (...args) => `${symbol.error} ${pc.red(...args)}`
+export const logSuccess = (...args) => `${symbol.success} ${pc.green(...args)}`
+export const logWarning = (...args) => `${symbol.warning} ${pc.yellow(...args)}`

@@ -1,6 +1,7 @@
 //Imports
 import * as cheerio from 'cheerio'
 import fetch from 'node-fetch'
+import {cancel, isCancel} from '@clack/prompts'
 
 import { logError, logInfo, logSuccess } from './log.js'
 
@@ -23,20 +24,15 @@ export async function ScrapeAndSave(url) {
     const start = performance.now()
 
     try {
-        logInfo(`Scraping [${url}]`)
-
         const $ = await scrape(url)
         const data = await getData($)
-        console.log(data)
+        return data
     } catch (error) {
-        logError(`Error Scraping`)
-        logError(error)
-    } finally {
-        const end = performance.now()
-        const time = (end - start) / 1000
-        logInfo(`Scraped in ${time} secods`)
-    }
-
+        outro(
+            logError(`Error Scraping`),
+            logError(error)
+        )
+    } 
 }
 
 async function getData($) {
@@ -86,4 +82,11 @@ async function getData($) {
 
 
     return character
+}
+
+export function checkCancel(value){
+    if (isCancel(value)) {
+        cancel('Operation cancelled.');
+        process.exit(0);
+      }
 }
