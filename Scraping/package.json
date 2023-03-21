@@ -13,8 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@bdsqqq/try": "^2.3.1",
+    "@clack/prompts": "0.6.3",
     "cheerio": "^1.0.0-rc.12",
-    "clacks": "^0.0.0",
     "node-fetch": "^3.3.1",
     "picocolors": "^1.0.0"
   }
