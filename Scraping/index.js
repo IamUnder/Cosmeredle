@@ -1,8 +1,8 @@
 // Imports
-import { intro, outro, text, multiselect, confirm } from '@clack/prompts'
+import { intro, outro, text, multiselect } from '@clack/prompts'
 import colors from 'picocolors'
-import { trytm } from '@bdsqqq/try'
 import { validUrl, ScrapeAndSave, checkCancel } from './util.js'
+import { insertDB } from './database.js'
 
 intro(
     colors.inverse(`Scripinting cosmeredle by ${colors.cyan('@IamUnder')}`)
@@ -15,11 +15,10 @@ var url = await text({
 checkCancel(url)
 
 if (!validUrl(url)) {
-    url = 'https://coppermind.net/wiki/vin'
-    // outro(
-    //     colors.red('Error: Not a valid url, please try again')
-    // )
-    //process.exit(1)
+    outro(
+        colors.red('Error: Not a valid url, please try again')
+    )
+    process.exit(1)
 } 
 
 var data = await ScrapeAndSave(url)
@@ -79,5 +78,15 @@ do {
 
 } while (toChange);
 
-console.log('TODO: DATABASE');
-console.log('https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/')
+try {
+    await insertDB(data)
+    outro(
+        'Process completed successfully'
+    )
+    process.exit(0)
+} catch (error) {
+    outro(
+        `Database insert failed: ${error}`
+    )
+    process.exit(1)
+}

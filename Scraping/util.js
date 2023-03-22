@@ -1,7 +1,7 @@
 //Imports
 import * as cheerio from 'cheerio'
 import fetch from 'node-fetch'
-import {cancel, isCancel} from '@clack/prompts'
+import {cancel, isCancel, outro} from '@clack/prompts'
 
 import { logError, logInfo, logSuccess } from './log.js'
 
@@ -85,8 +85,9 @@ async function getData($) {
 }
 
 export function checkCancel(value){
+
     if (isCancel(value)) {
         cancel('Operation cancelled.');
         process.exit(0);
-      }
+    }
 }
