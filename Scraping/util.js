@@ -54,8 +54,8 @@ async function getData($) {
     // Get the name
     character['Name'] = $('#Character th.title').text().replace("\n", "")
     // Picture
-    character['img'] = 'https://coppermind.net' + $('#Character img').attr('src')
-    character['imgAutor'] = $('#Character .attribution').text().replace("by  ", "")
+    character['Img'] = 'https://coppermind.net' + $('#Character img').attr('src')
+    character['ImgAutor'] = $('#Character .attribution').text().replace("by  ", "")
     // Other data
     $character = $character.map(element => {
         let clave = Object.keys(element)

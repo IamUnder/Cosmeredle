@@ -28,42 +28,56 @@ var toChange = true
 
 do {
     var changeData = await multiselect({
-        message: 'Select the values you want to change',
-        options:Object.entries(data).map(([key, value]) => ({
-            value: key,
-            label: `${key.padEnd(12,' ')}  ·  ${value}`
-        })),
+        message: 'Select the values you want to change (If they are correct, select only the last option)',
+        options: [
+            { value: 'Name', label: `${'Name'.padEnd(12,' ')}  ·  ${data['Name']}` },
+            { value: 'Img', label: `${'Img'.padEnd(12,' ')}  ·  ${data['Img']}` },
+            { value: 'ImgAutor', label: `${'ImgAutor'.padEnd(12,' ')}  ·  ${data['ImgAutor']}` },
+            { value: 'Gender', label: `${'Gender'.padEnd(12,' ')}  ·  ${data['Gender']}` },
+            { value: 'Nationality', label: `${'Nationality'.padEnd(12,' ')}  ·  ${data['Nationality']}` },
+            { value: 'World', label: `${'World'.padEnd(12,' ')}  ·  ${data['World']}` },
+            { value: 'Abilities', label: `${'Abilities'.padEnd(12,' ')}  ·  ${data['Abilities']}` },
+            { value: 'State', label: `${'State'.padEnd(12,' ')}  ·  ${data['State']}` },
+            { value: 'FeaturedIn', label: `${'FeaturedIn'.padEnd(12,' ')}  ·  ${data['FeaturedIn']}` },
+            { value: 'Continue', label: 'Are the values correct?', hint: 'Mark only this' },
+
+        ],
         required: false,
     })
     checkCancel(changeData)
     
-    if(changeData.length != 0) {
+    if(changeData[0] != 'Continue') {
         
+        // error handling
+        let arrayIndex = changeData.indexOf('Continue')
+        if (arrayIndex >= 0) {
+            changeData.splice(arrayIndex, 1);
+        }
+
         for (let index = 0; index < changeData.length; index++) {
 
             if (typeof(data[changeData[index]]) == 'object') {
                 // Array
                 let newData = await text({
-                    message: data[changeData[index]].join(),
+                    message: `[${changeData[index]}] Current data: [${data[changeData[index]].join()}]`,
                     initialValue: data[changeData[index]].join()
                 })
                 data[changeData[index]] = newData.split(',')
             } else {
                 // Not an array
                 data[changeData[index]] = await text({
-                    message: `Current data: [${data[changeData[index]]}]`,
+                    message: `[${changeData[index]}] Current data: [${data[changeData[index]]}]`,
                     initialValue: data[changeData[index]]
                 })
             }
-
         }
 
-    } 
-
-    toChange = !await confirm({
-        message: `Is the data correct? \n ${JSON.stringify(data, null, "\t")}`,
-    });
+    } else {
+        // We check to get out
+        toChange = false
+    }
 
 } while (toChange);
 
 console.log('TODO: DATABASE');
+console.log('https://www.section.io/engineering-education/nodejs-mongoosejs-mongodb/')
